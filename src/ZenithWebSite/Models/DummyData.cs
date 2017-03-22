@@ -77,6 +77,7 @@ namespace ZenithWebSite.Models
                 var userStore = new UserStore<ApplicationUser>(_context);
                 userStore.CreateAsync(admin);
                 userStore.AddToRoleAsync(admin, "ADMIN");
+                userStore.AddToRoleAsync(admin, "MEMBER");
 
             }
 

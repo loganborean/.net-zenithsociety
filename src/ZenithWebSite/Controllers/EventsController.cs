@@ -11,9 +11,11 @@ using ZenithWebSite.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ZenithSociety.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -42,16 +44,15 @@ namespace ZenithSociety.Controllers
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var currentUser = _context.Users.FirstOrDefault(user => user.Id == userId);
 
-            var adminRole = await roleManager.FindByNameAsync("Admin");
+            var memberRole = await roleManager.FindByNameAsync("Member");
 
-            if (await userManager.IsInRoleAsync(currentUser, adminRole.Name))
+            if (await userManager.IsInRoleAsync(currentUser, memberRole.Name))
             {
                 return View("Index", await applicationDbContext.ToListAsync());
 
             }
 
-            Dictionary<string, List<EventUi>> eventsByWeek = eventWeekService.getThisWeeksEvents(allEvents);
-            return View("unAuthenticatedIndex", eventsByWeek);
+            return RedirectToAction("Index", "Home");
         }
 
 

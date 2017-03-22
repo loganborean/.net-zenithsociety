@@ -1,0 +1,32 @@
+﻿@model IDictionary <ApplicationUser, List<IdentityRole>>
+@{
+    ViewBag.Title = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Manage Roles</h1>
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Roles</th>
+
+    </tr>
+@foreach (var pair in Model)
+{
+        <tr>
+            <td>
+                @pair.Key.UserName
+            </td>
+            <td>
+                @pair.Key.Email
+            </td>
+            <td>
+            @foreach (var role in pair.Value)
+            {
+               <p> @role.Name</p>
+            }
+            </td>
+        </tr>
+}
+</table>
