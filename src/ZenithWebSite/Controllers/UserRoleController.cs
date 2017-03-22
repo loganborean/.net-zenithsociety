@@ -73,85 +73,44 @@ namespace ZenithWebSite.Controllers
                 {
                     throw new Exception();
                 }
-                //var userStore = new UserStore<ApplicationUser>(db);
-                //var user = db.Users.FirstOrDefault(u => u.Id == userId);
-                //await userStore.AddToRoleAsync(user, role.NormalizedName);
-
+                var userStore = new UserStore<ApplicationUser>(db);
+                var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                await userStore.AddToRoleAsync(user, role.NormalizedName);
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(db.Roles.ToList());
             }
-        }
-
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        public ActionResult Create()
-        {
-            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Delete(IFormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
+                string roleId = Request.Form["roleId"];
+                string userId = Request.Form["userId"];
+
+                if (roleId == null || userId == null) throw new Exception();
+
+                IdentityRole role = db.Roles.FirstOrDefault(r => r.Id == roleId);
+                var userStore = new UserStore<ApplicationUser>(db);
+                var user = db.Users.FirstOrDefault(u => u.Id == userId);
+
+                if (role == null || user == null) throw new Exception();
+
+                await userStore.RemoveFromRoleAsync(user, role.NormalizedName);
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
-            }
-        }
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
             }
         }
     }

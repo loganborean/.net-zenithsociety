@@ -6,12 +6,14 @@
 <h2>Manage User Roles</h2>
 
 <table class="table">
-    <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Roles</th>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
 
-    </tr>
+        </tr>
+    </thead>
 @foreach (var pair in Model)
 {
         <tr>
@@ -24,12 +26,21 @@
             <td>
             @foreach (var role in pair.Value)
             {
-               <p> @role.Name 
                 @if (@pair.Key.UserName != "a" || role.Name != "Admin")
                 {
-                    <button class="btn btn-sm">x</button>
+                    <form asp-action="Delete">
+                        <input type="hidden" name="userId" value="@pair.Key.Id" />
+                        <input type="hidden" name="roleId" value="@role.Id" />
+                        @role.Name
+                        <div class="btn btn-sm">
+                             <input type="submit" value="X" class="btn btn-default" />
+                        </div>
+                    </form>
+                } else
+                {
+                    @role.Name
+
                 }
-                </p>
             }
             </td>
             <td>
