@@ -1,0 +1,40 @@
+﻿@model IDictionary <ApplicationUser, List<IdentityRole>>
+@{
+    ViewBag.Title = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Manage User Roles</h2>
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Roles</th>
+
+    </tr>
+@foreach (var pair in Model)
+{
+        <tr>
+            <td>
+                @pair.Key.UserName
+            </td>
+            <td>
+                @pair.Key.Email
+            </td>
+            <td>
+            @foreach (var role in pair.Value)
+            {
+               <p> @role.Name 
+                @if (@pair.Key.UserName != "a" || role.Name != "Admin")
+                {
+                    <button class="btn btn-sm">x</button>
+                }
+                </p>
+            }
+            </td>
+            <td>
+                <a asp-action="Add" asp-route-id="@pair.Key.Id">Add Role</a>
+            </td>
+        </tr>
+}
+</table>

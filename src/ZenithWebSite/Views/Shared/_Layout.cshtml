@@ -44,9 +44,8 @@
                         <li><a asp-area="" asp-controller="Events" asp-action="Index">Events</a></li>
                         @if (User.IsInRole("Admin"))
                         {
-                            <li><a asp-area="" asp-controller="User" asp-action="Index">Manage Users</a></li>
+                            <li><a asp-area="" asp-controller="UserRole" asp-action="Index">Manage User Roles</a></li>
                             <li><a asp-area="" asp-controller="Role" asp-action="Index">Manage Roles</a></li>
-
                         }
                         </ul>
                     }

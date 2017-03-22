@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ZenithWebSite.Data;
-using ZenithWebSite.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Collections;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ZenithWebSite.Controllers
 {
@@ -22,34 +20,12 @@ namespace ZenithWebSite.Controllers
             this.db = db;
         }
 
-        // GET: Role
         public async Task<ActionResult> Index()
         {
-            var query = from User in db.Users
-                        join UserRoles in db.UserRoles on User.Id equals UserRoles.UserId
-                        join Roles in db.Roles on UserRoles.RoleId equals Roles.Id
-                        select new { User, Roles };
+            List<IdentityRole> allRoles = db.Roles.ToList();
 
-            var thing = query.ToList();
-            Dictionary <ApplicationUser, List<IdentityRole>> userAndRole 
-                = new Dictionary<ApplicationUser, List<IdentityRole>>();
-
-            foreach(var item in thing)
-            {
-                if (userAndRole.ContainsKey(item.User))
-                {
-                    userAndRole[item.User].Add(item.Roles);
-                } else
-                {
-                    List<IdentityRole> newList = new List<IdentityRole>();
-                    newList.Add(item.Roles);
-                    userAndRole.Add(item.User, newList);
-                }
-            }
-
-            return View(userAndRole);
+            return View(allRoles);
         }
-
 
         // GET: Role/Details/5
         public ActionResult Details(int id)
@@ -70,8 +46,15 @@ namespace ZenithWebSite.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                string name = Request.Form["Name"];
+                if (name == null || name.Length == 0)
+                {
+                    throw new Exception();
+                }
 
+
+                var roleStore = new RoleStore<IdentityRole>(db);
+                roleStore.CreateAsync(new IdentityRole { Name = name, NormalizedName = name.ToUpper() });
                 return RedirectToAction("Index");
             }
             catch
@@ -80,13 +63,14 @@ namespace ZenithWebSite.Controllers
             }
         }
 
+
         // GET: Role/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: User/Edit/5
+        // POST: Role/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -103,20 +87,21 @@ namespace ZenithWebSite.Controllers
             }
         }
 
-        // GET: Role/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: Role/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var roleStore = new RoleStore<IdentityRole>(db);
+                IdentityRole roleToDelete = await roleStore.FindByIdAsync(id);
+                if (roleToDelete == null)
+                {
+                    throw new Exception();
+                }
+                await roleStore.DeleteAsync(roleToDelete);
 
                 return RedirectToAction("Index");
             }

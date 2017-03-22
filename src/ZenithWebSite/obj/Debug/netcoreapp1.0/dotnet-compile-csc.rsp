@@ -235,6 +235,7 @@
 "C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Controllers\HomeController.cs"
 "C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Controllers\ManageController.cs"
 "C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Controllers\RoleController.cs"
+"C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Controllers\UserRoleController.cs"
 "C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\ApplicationDbContext.cs"
 "C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\00000000000000_CreateIdentitySchema.cs"
 "C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs"
