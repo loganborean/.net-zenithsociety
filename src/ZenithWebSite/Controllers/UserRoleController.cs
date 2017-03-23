@@ -55,7 +55,28 @@ namespace ZenithWebSite.Controllers
         public async Task<ActionResult> Add(string id)
         {
             ViewData["id"] = id;
-            return View(db.Roles.ToList());
+            List<IdentityRole> roles = db.Roles.ToList();
+            Dictionary<string, IdentityRole> map = new Dictionary<string, IdentityRole>();
+
+            foreach (IdentityRole role in roles)
+            {
+                map.Add(role.Id, role);
+            }
+
+            List<IdentityUserRole<string>> rolesNotHadByUser = 
+                db.UserRoles.Where(role => role.UserId != id).ToList();
+
+            List<IdentityRole> rolesHadByUser = new List<IdentityRole>();
+
+            foreach (var role in rolesNotHadByUser)
+            {
+                if (map.ContainsKey(role.RoleId))
+                {
+                    rolesHadByUser.Add(map[role.RoleId]);
+                }
+            }
+
+            return View(rolesHadByUser);
         }
 
         // POST: Role/Add
