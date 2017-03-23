@@ -63,20 +63,10 @@ namespace ZenithWebSite.Controllers
                 map.Add(role.Id, role);
             }
 
-            List<IdentityUserRole<string>> rolesNotHadByUser = 
-                db.UserRoles.Where(role => role.UserId != id).ToList();
+            string sql = "select * from AspNetRoles where Id NOT IN(select RoleId from AspNetUserRoles where UserId = '" + id +"')";
+            var notUsersRoles = db.Roles.FromSql(sql).ToList();
 
-            List<IdentityRole> rolesHadByUser = new List<IdentityRole>();
-
-            foreach (var role in rolesNotHadByUser)
-            {
-                if (map.ContainsKey(role.RoleId))
-                {
-                    rolesHadByUser.Add(map[role.RoleId]);
-                }
-            }
-
-            return View(rolesHadByUser);
+            return View(notUsersRoles);
         }
 
         // POST: Role/Add
