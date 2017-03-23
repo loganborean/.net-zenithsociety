@@ -11,6 +11,9 @@ using Microsoft.Extensions.Logging;
 using ZenithWebSite.Models;
 using ZenithWebSite.Models.AccountViewModels;
 using ZenithWebSite.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using ZenithWebSite.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZenithWebSite.Controllers
 {
@@ -22,19 +25,22 @@ namespace ZenithWebSite.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private ApplicationDbContext db;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            this.db = db;
         }
 
         //
@@ -106,7 +112,11 @@ namespace ZenithWebSite.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                var userStore = new UserStore<ApplicationUser>(db);
+                await userStore.AddToRoleAsync(user, "MEMBER");
                 var result = await _userManager.CreateAsync(user, model.Password);
+                db.SaveChanges();
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
