@@ -29,6 +29,7 @@ namespace ZenithWebSite.Controllers
             return applicationDbContext;
         }
 
+
         // GET: api/EventsApi/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent([FromRoute] int id)
