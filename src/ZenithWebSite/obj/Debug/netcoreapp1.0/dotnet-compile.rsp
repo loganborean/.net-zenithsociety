@@ -247,6 +247,8 @@ C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWeb
 C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs
 C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\20170321191150_FirstMigration.cs
 C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\20170321191150_FirstMigration.Designer.cs
+C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\20170330234357_NewMigration.cs
+C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\20170330234357_NewMigration.Designer.cs
 C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Data\Migrations\ApplicationDbContextModelSnapshot.cs
 C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Models\Activity.cs
 C:\Users\logan\Documents\Visual Studio 2015\Projects\ZenithSociety\src\ZenithWebSite\Models\ApplicationUser.cs
