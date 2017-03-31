@@ -55,6 +55,16 @@ namespace ZenithWebSite
             var connection = Configuration["DefaultConnection"];
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connection));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                     .AllowAnyMethod()
+                     .AllowAnyHeader()
+                     .AllowCredentials());
+            });
+
+
             services.AddMvc();
 
             // Add application services.
@@ -82,6 +92,7 @@ namespace ZenithWebSite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseCors("CorsPolicy");
 
             app.UseApplicationInsightsExceptionTelemetry();
 

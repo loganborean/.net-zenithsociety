@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZenithWebSite.Data;
 using ZenithWebSite.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace ZenithWebSite.Controllers
 {
     [Produces("application/json")]
     [Route("api/EventsApi")]
+    [EnableCors("CorsPolicy")]
     public class EventsApiController : Controller
     {
         private readonly ApplicationDbContext _context;
